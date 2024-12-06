@@ -8,7 +8,7 @@ type CounterLimitsProps = {
     maxValue: number
     startValue: number
     isOnSettings: boolean
-    error: boolean
+    error: () => boolean
 }
 
 export const Settings = (props: CounterLimitsProps) => {
@@ -32,7 +32,7 @@ export const Settings = (props: CounterLimitsProps) => {
                         value={props.maxValue}
                         onChange={getMaxValueHandler}
                         type={"number"}
-                        className={props.error ? "error-btn" : ""}
+                        className={props.error() ? "error-btn" : ""}
                     ></input>
                 </div>
                 <div>
@@ -40,7 +40,7 @@ export const Settings = (props: CounterLimitsProps) => {
                     <input
                         value={props.startValue}
                         onChange={getStartValueHandler} type={"number"}
-                        className={props.error ? "error-btn" : ""}
+                        className={props.error() ? "error-btn" : ""}
                     ></input>
 
                 </div>
@@ -49,7 +49,7 @@ export const Settings = (props: CounterLimitsProps) => {
                 <Button
                     title={"set"}
                     callback={onClickApplyHandler}
-                    btnDisabled={!props.isOnSettings || props.error}/>
+                    btnDisabled={!props.isOnSettings || props.error()}/>
             </div>
 
         </div>

@@ -8,9 +8,9 @@ type CounterPropsType = {
     increase: () => void
     result: number
     maxValue: number
-    error: boolean
+    error: () => boolean
     isOnSettings: boolean
-    btnDisabled: boolean
+    btnDisabled: () => boolean
 }
 
 export const Counter = (props: CounterPropsType) => {
@@ -24,7 +24,7 @@ export const Counter = (props: CounterPropsType) => {
         <div className="counter">
             <Screen
                 isOnSettings={props.isOnSettings}
-                error={props.error}
+                error={props.error()}
                 maxValue={props.maxValue}
                 result={props.result}
             />
@@ -32,7 +32,7 @@ export const Counter = (props: CounterPropsType) => {
             <ProgressBar currentProgress={currentProgress}/>
 
             <div className="buttons-wrapper">
-                <Button title="inc" callback={onClickIncHandler} btnDisabled={props.btnDisabled}/>
+                <Button title="inc" callback={onClickIncHandler} btnDisabled={props.btnDisabled()}/>
                 <Button title="reset" callback={onClickResetHandler} btnDisabled={props.isOnSettings}/>
             </div>
         </div>

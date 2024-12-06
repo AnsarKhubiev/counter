@@ -1,52 +1,53 @@
 import "./App.css";
 import {Counter} from "./Components/Counter";
 import {Settings} from "./Components/Settings";
-import {useEffect, useState} from "react";
+import {useReducer} from "react";
+import {
+    applyValuesAC,
+    changeMaxValueAC,
+    changeStartValueAC,
+    increaseResultAC, resetResultAC,
+    counterReducer
+} from "./model/counter-reducer";
+
+export type SettingValuesType = {
+    maxValue: number
+    startValue: number
+    result: number
+    isOnSettings: boolean
+}
 
 function App() {
 
     const getValueFromLS = (value: string, initialValue: number) => {
         const savedValue = localStorage.getItem(`${value}`)
-        return savedValue !== null ? JSON.parse(savedValue) : initialValue
+        return savedValue ? JSON.parse(savedValue) : initialValue
     }
 
-    const [maxValue, setMaxValue] = useState(getValueFromLS('maxValue', 1))
-    const [startValue, setStartValue] = useState(getValueFromLS('startValue', 2))
-    const [isOnSettings, setIsOnSettings] = useState(true)
-    const [result, setResult] = useState(0)
+    const [values, dispatchValues] = useReducer(counterReducer, {
+        maxValue: getValueFromLS('maxValue', 1),
+        startValue: getValueFromLS('startValue', 0),
+        result: 0,
+        isOnSettings: true
+    })
 
-    let error = false
-    let isCounterBtnDisabled = false;
+    const getMaxValue = (value: number) => dispatchValues(changeMaxValueAC(value))
 
-    useEffect(() => {
-        localStorage.setItem('maxValue', JSON.stringify(maxValue))
-        localStorage.setItem('startValue', JSON.stringify(startValue))
-    }, [maxValue, startValue]);
-
-
-    const getMaxValue = (value: number) => {
-        setMaxValue(value)
-        setIsOnSettings(true)
-        setResult(0)
-    }
-    const getStartValue = (value: number) => {
-        setStartValue(value)
-        setIsOnSettings(true)
-        setResult(0)
-    }
+    const getStartValue = (value: number) => dispatchValues(changeStartValueAC(value))
 
     const applyValues = () => {
-        setResult(startValue)
-        setIsOnSettings(false)
+        dispatchValues(applyValuesAC())
+        localStorage.setItem('maxValue', JSON.stringify(values.maxValue))
+        localStorage.setItem('startValue', JSON.stringify(values.startValue))
     }
 
-    const increase = () => {if (result < maxValue) setResult((prevState: number) => prevState + 1)}
+    const increase = () => dispatchValues(increaseResultAC())
 
-    const reset = () => setResult(startValue)
+    const reset = () => dispatchValues(resetResultAC())
 
-    isOnSettings ? (isCounterBtnDisabled = true) : (maxValue === result) && (isCounterBtnDisabled = true)
+    const isCounterBtnDisabled = () => values.isOnSettings ? true : values.maxValue === values.result
 
-    if (startValue < 0 || startValue >= maxValue) (error = true)
+    const isError = () => values.startValue < 0 || values.startValue >= values.maxValue
 
     return (
         <div className="App">
@@ -54,18 +55,18 @@ function App() {
                 getMaxValue={getMaxValue}
                 getStartValue={getStartValue}
                 applyValues={applyValues}
-                maxValue={maxValue}
-                startValue={startValue}
-                isOnSettings={isOnSettings}
-                error={error}
+                maxValue={values.maxValue}
+                startValue={values.startValue}
+                isOnSettings={values.isOnSettings}
+                error={isError}
             />
             <Counter
-                isOnSettings={isOnSettings}
-                error={error}
+                isOnSettings={values.isOnSettings}
+                error={isError}
                 increase={increase}
                 reset={reset}
-                result={result}
-                maxValue={maxValue}
+                result={values.result}
+                maxValue={values.maxValue}
                 btnDisabled={isCounterBtnDisabled}
             />
         </div>

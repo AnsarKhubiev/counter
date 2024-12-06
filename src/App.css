@@ -1,16 +1,23 @@
+* {
+    background-color: #292c35;
+}
+
 .App {
     height: 100vh;
     align-items: center;
     display: flex;
-    background-color: #292c35;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    gap: 20px 60px;
 }
 
 .counter {
-    margin: 0 auto;
-    width: 500px;
-    min-height: 481px;
+    /*margin: 0 auto;*/
+    width: 400px;
+    min-height: 401px;
     border: 3px solid #62d9fb;
-    padding: 30px;
+    padding: 20px;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -19,13 +26,13 @@
 
 .screen {
     width: 100%;
-    height: 200px;
+    height: 150px;
     border: 3px solid  #62d9fb;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: 50px;
+    font-size: 40px;
     font-weight: bold;
     border-radius: 20px;
     color: #62d9fb;
@@ -39,13 +46,13 @@
 .inputs-block {
     padding: 0 20px;
     width: 100%;
-    height: 200px;
+    height: 150px;
     border: 3px solid  #62d9fb;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
     border-radius: 20px;
     color: #62d9fb;
@@ -64,8 +71,7 @@
         border-radius: 10px;
         font-size: 30px;
         font-weight: bold;
-
-
+        background-color: #fff;
     }
 
     & .error-btn {
@@ -73,10 +79,6 @@
         border: 3px solid #fd0000;
     }
 }
-
-
-
-
 
 .buttons-wrapper {
     width: 100%;
@@ -91,7 +93,7 @@
 .btn {
     width: 150px;
     height: 60px;
-    font-size: 50px;
+    font-size: 30px;
     font-weight: bold;
     border-radius: 20px;
     background-color: #62d9fb;
@@ -110,7 +112,7 @@
 }
 
 .maxValue {
-    font-size: 60px;
+    font-size: 40px;
     font-weight: bold;
     color: #62d9fb;
     margin-bottom: 10px;
